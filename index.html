@@ -1,26 +1,109 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Security-Policy"
-          content="frame-ancestors https://*.office.com https://*.office365.com https://*.officeapps.live.com;">
-    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
-    <script>
-      Office.onReady(() => {
-        console.log('Task pane ready');
-        const el = document.getElementById('status');
-        if (el) el.textContent = 'Index ready';
-      });
-    </script>
-    <title>DumpTruck 911</title>
-    <style>
-      body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; margin: 16px; }
-      .muted{color:#666;font-size:12px;margin-top:8px}
-    </style>
-  </head>
-  <body>
-    <h2>DumpTruck 911 Demo</h2>
-    <p>This is a placeholder page for the Excel demo add-in.</p>
-    <div id="status" class="muted">(index placeholder)</div>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="frame-ancestors https://*.office.com https://*.office365.com https://*.officeapps.live.com;">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dump Truck</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <link rel="stylesheet" href="app.css">
+  <script>
+    Office.onReady(() => console.log('Task pane ready'));
+    function selectTab(name) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+      document.querySelectorAll('.content').forEach(c => c.classList.toggle('active', c.id === name));
+    }
+    window.addEventListener('DOMContentLoaded', () => selectTab('chat'));
+    function toggleMenu() { document.querySelector('.menu').classList.toggle('open'); }
+  </script>
+</head>
+<body>
+  <div class="pane">
+    <div class="hdr">
+      <span class="badge">D365</span>
+      <div class="title">Dump Truck</div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="chat"    onclick="selectTab('chat')">Chat</div>
+      <div class="tab"         data-tab="auth"    onclick="selectTab('auth')">Auth</div>
+      <div class="tab"         data-tab="filters" onclick="selectTab('filters')">Filters</div>
+    </div>
+
+    <div class="content active" id="chat">
+      <div class="chat">
+        <div class="bubble bot">Hello! I'm Dump Truck AI. I can help you set up your connection. What data source do you want to connect to?</div>
+        <div class="bubble user">D365</div>
+        <div class="bubble bot">Great! I've selected the Dynamics 365 connector. What is your URL to connect to D365?</div>
+        <div class="bubble user">https://acme-production.crm.dynamics.com</div>
+        <div class="bubble bot">Got it. I've pre-configured the environment. Now, please enter your Client ID or just ask me to find it for you.</div>
+      </div>
+      <div class="composer">
+        <input type="text" placeholder="Ask Dump Truck AI..." />
+        <button class="send" title="Send">➤</button>
+      </div>
+    </div>
+
+    <div class="content" id="auth">
+      <div class="section">
+        <div class="label">Environment URL</div>
+        <input type="text" value="https://acme-production.crm.dynamics.com" />
+      </div>
+      <div class="section">
+        <div class="label">Client ID</div>
+        <input type="text" placeholder="Enter ID..." />
+      </div>
+      <div class="section">
+        <div class="label">Client Secret</div>
+        <input type="password" value="••••••••••" />
+      </div>
+      <button class="btn">Authorize Sync</button>
+    </div>
+
+    <div class="content" id="filters">
+      <div class="section">
+        <div class="label">Entity Type</div>
+        <select>
+          <option>Opportunities</option>
+          <option>Leads</option>
+          <option>Accounts</option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="section">
+          <div class="label">Date created (from)</div>
+          <input type="text" placeholder="dd/mm/yyyy" />
+        </div>
+        <div class="section">
+          <div class="label">Date created (to)</div>
+          <input type="text" placeholder="dd/mm/yyyy" />
+        </div>
+      </div>
+      <div class="section">
+        <div class="label">Status condition</div>
+        <div><label><input type="checkbox" checked /> Open</label></div>
+        <div><label><input type="checkbox" checked /> Won</label></div>
+        <div><label><input type="checkbox" checked /> Lost</label></div>
+        <div><label><input type="checkbox" /> Draft</label></div>
+      </div>
+      <div class="upgrade">
+        <strong>Upgrade Plan <span class="pro">PRO</span></strong>
+        <div>• Chat with Us<br/>• Schedule Demo<br/>• Help Centre<br/>• Invite your team</div>
+      </div>
+    </div>
+
+    <div class="ftr">
+      <span>⚙️ Dump Truck v3.2</span>
+      <div class="menu">
+        <button onclick="toggleMenu()">Help & Support ▾</button>
+        <div class="card">
+          <div>Help Centre</div>
+          <div>Contact Us</div>
+          <div>Privacy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
